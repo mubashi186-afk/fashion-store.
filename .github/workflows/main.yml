@@ -1,0 +1,16 @@
+name: Automation Worker
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+jobs:
+  run-automation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Running Automation
+        run: |
+          echo "Automation system is active and running!"
+          # Yahan tumhari main automation script aayegi
+          
