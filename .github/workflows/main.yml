@@ -5,19 +5,14 @@ jobs:
   run-automation:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      - name: Install dependencies
-        run: pip install requests beautifulsoup4
-      - name: Run Scraper
-        run: python scraper.py
-      - name: Upload result
-        uses: actions/upload-artifact@v4
+        with: {python-version: '3.9'}
+      - run: pip install requests beautifulsoup4
+      - run: python scraper.py
+      - uses: actions/upload-artifact@v4
         with:
           name: scraped-data
-          path: .
+          path: output/
           
