@@ -16,7 +16,7 @@ jobs:
       - name: Run Scraper
         run: python scraper.py
       - name: Upload result
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: scraped-data
           path: products.csv
