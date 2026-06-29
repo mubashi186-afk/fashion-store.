@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import os
 
 def scrape_fashion_products():
     url = "https://www.amazon.com/s?k=visual+fashion"
@@ -13,10 +14,12 @@ def scrape_fashion_products():
         soup = BeautifulSoup(response.content, 'html.parser')
         products = soup.find_all('div', {'data-component-type': 's-search-result'})
         
-        # File mein save karna shuru
-        with open('products.csv', 'w', newline='', encoding='utf-8') as file:
+        # Sahi path par file save karna
+        file_path = os.path.join(os.getcwd(), 'products.csv')
+        
+        with open(file_path, 'w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-            writer.writerow(["Product Title"]) # Heading
+            writer.writerow(["Product Title"]) 
             
             for item in products[:10]:
                 title_tag = item.find('h2')
@@ -24,10 +27,10 @@ def scrape_fashion_products():
                     title = title_tag.text.strip()
                     writer.writerow([title])
                     print(f"Saved: {title}")
-        print("Data successfully saved to products.csv!")
+        print(f"Data successfully saved to {file_path}")
     else:
         print("Failed to fetch page.")
 
 if __name__ == "__main__":
     scrape_fashion_products()
-    
+                
