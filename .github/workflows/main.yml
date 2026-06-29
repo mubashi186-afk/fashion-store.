@@ -1,7 +1,5 @@
 name: Automation Worker
 on:
-  schedule:
-    - cron: '0 * * * *'
   workflow_dispatch:
 jobs:
   run-automation:
@@ -9,10 +7,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Running Automation
-        run: |
-          echo "Automation system is active and running!"
-               - name: Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
