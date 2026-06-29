@@ -12,5 +12,12 @@ jobs:
       - name: Running Automation
         run: |
           echo "Automation system is active and running!"
-          # Yahan tumhari main automation script aayegi
-          
+               - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+      - name: Run Scraper
+        run: python scraper.py
+        
