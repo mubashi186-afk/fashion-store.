@@ -1,24 +1,17 @@
+import csv
 import requests
 from bs4 import BeautifulSoup
-import csv
-import os
 
 def scrape_fashion_products():
-    if not os.path.exists('output'):
-        os.makedirs('output')
-        
-    url = "https://www.amazon.com/s?k=fashion"
-    # Ye headers asli browser jaisa behave karenge
+    # Hum dummy "fashion" ki jagah seedha URL use karenge aur headers ko aur strong karenge
+    url = "https://www.amazon.com/s?k=mens+fashion"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Android 10; Mobile; rv:86.0) Gecko/86.0 Firefox/86.0",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Connection": "keep-alive",
-        "Upgrade-Insecure-Requests": "1"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
     }
     
     response = requests.get(url, headers=headers)
-    print(f"Status Code: {response.status_code}") # Ye humein batayega ki Amazon allow kar raha hai ya nahi
     
+    # Agar code 200 hai to data process karo
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         products = soup.find_all('div', {'data-component-type': 's-search-result'})
@@ -27,13 +20,15 @@ def scrape_fashion_products():
             writer = csv.writer(file)
             writer.writerow(["Product Title"])
             for item in products:
-                title_tag = item.find('h2')
-                if title_tag:
-                    writer.writerow([title_tag.text.strip()])
+                # Sirf title nahi, price aur link bhi uthane ki koshish karenge
+                title = item.find('h2')
+                if title:
+                    writer.writerow([title.text.strip()])
         print("Data scrape ho gaya!")
     else:
-        print("Amazon ne block kar diya!")
+        # Agar code 200 nahi hai, to error print karo
+        print(f"Error: Amazon ne block kiya, Status Code: {response.status_code}")
 
 if __name__ == "__main__":
     scrape_fashion_products()
-                  
+            
