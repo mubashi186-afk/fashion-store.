@@ -4,6 +4,8 @@ on:
 jobs:
   run-automation:
     runs-on: ubuntu-latest
+    env:
+      PINTEREST_TOKEN: ${{ secrets.PINTEREST_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -11,11 +13,7 @@ jobs:
         with:
           python-version: '3.9'
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
-      - name: Run Scraper
-        run: python scraper.py
+        run: pip install requests
       - name: Run Pinterest Poster
         run: python pinterest_poster.py
         
